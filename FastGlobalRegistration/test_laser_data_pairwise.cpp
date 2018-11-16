@@ -16,7 +16,7 @@ int main(int argc, char** argv)
 	LaserClouds laser_clouds(laser_data_log);
 	laser_clouds.CalculateDescriptorNoKeypoints();
 
-	int id1 = 0, id2 = 11;
+	int id1 = 11, id2 = 20;
 
 	fgr::CApp app;
 	app.LoadFeature(laser_clouds._pointsForICP[id1], laser_clouds._descriptorForICP[id1]);

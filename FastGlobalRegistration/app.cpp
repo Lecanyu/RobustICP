@@ -160,6 +160,8 @@ void CApp::AdvancedMatching()
 	{
 		SearchKDTree(&feature_tree_i, features_[fj][j], corres_K, dis, 1);
 		int i = corres_K[0];
+		if (i >= i_to_j.size())
+			continue;
 		if (i_to_j[i] == -1)
 		{
 			SearchKDTree(&feature_tree_j, features_[fi][i], corres_K, dis, 1);
