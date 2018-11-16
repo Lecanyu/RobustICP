@@ -52,8 +52,9 @@ int main(int argc, char** argv) {
         auto descriptor_vec = bscDesc1[i].getDiscriptor();
 
         std::cout<<"point: "<<x<<", "<<y<<"\n";
+		std::cout << "descriptor: ";
         for(auto v:descriptor_vec)
-            std::cout<<"descriptor: "<< (int)v<<" ";
+            std::cout<< (int)v<<" ";
         std::cout<<"\n\n";
     }
 

@@ -1,9 +1,9 @@
 //
-// Created by lecanyu on 18-11-14.
+// 3d point cloud interface between PCL and ICP requirement.
 //
 
-#ifndef FASTGLOBALREGISTRATION_POINTCLOUD3D_H
-#define FASTGLOBALREGISTRATION_POINTCLOUD3D_H
+#pragma once
+
 
 #include <vector>
 #include <iostream>
@@ -22,21 +22,21 @@ class PointCloud3d
 public:
     pcl::PointCloud<pcl::PointXYZRGB>::Ptr _pointCloud;
     pcl::PointCloud<pcl::PointXYZ>::Ptr _pointCloudXYZ;
-    Eigen::Matrix4d _pose;
+    Eigen::Matrix4f _pose;
     pcl::PointCloud<pcl::FPFHSignature33>::Ptr _feature;
     pcl::PointCloud<pcl::Normal>::Ptr _normals;
 
 
     PointCloud3d()
         :_pointCloud(new pcl::PointCloud<pcl::PointXYZRGB>),
-        _pose(Eigen::Matrix4d::Identity()),
+        _pose(Eigen::Matrix4f::Identity()),
         _feature(new pcl::PointCloud<pcl::FPFHSignature33>),
         _normals(new pcl::PointCloud<pcl::Normal>),
         _pointCloudXYZ(new pcl::PointCloud<pcl::PointXYZ>) {}
 
     PointCloud3d(pcl::PointCloud<pcl::PointXYZRGB>::Ptr point_cloud)
         :_pointCloud(point_cloud),
-        _pose(Eigen::Matrix4d::Identity()),
+        _pose(Eigen::Matrix4f::Identity()),
         _feature(new pcl::PointCloud<pcl::FPFHSignature33>),
         _normals(new pcl::PointCloud<pcl::Normal>),
         _pointCloudXYZ(new pcl::PointCloud<pcl::PointXYZ>) {}
@@ -44,7 +44,7 @@ public:
 
     PointCloud3d(std::string pcd_file)
         :_pointCloud(new pcl::PointCloud<pcl::PointXYZRGB>),
-         _pose(Eigen::Matrix4d::Identity()),
+         _pose(Eigen::Matrix4f::Identity()),
          _feature(new pcl::PointCloud<pcl::FPFHSignature33>),
          _normals(new pcl::PointCloud<pcl::Normal>),
          _pointCloudXYZ(new pcl::PointCloud<pcl::PointXYZ>)
@@ -76,7 +76,7 @@ public:
         ne.compute (*_normals);
     }
 
-    void CalculateFeature(double radius = 0.5)
+    void CalculateFeature(double radius = 0.35)
     {
         pcl::FPFHEstimationOMP<pcl::PointXYZ, pcl::Normal, pcl::FPFHSignature33> fpfh;
         fpfh.setInputCloud (_pointCloudXYZ);
@@ -97,19 +97,15 @@ public:
             auto z = _pointCloudXYZ->points[i].z;
             Eigen::Vector3f p;
             p<<x,y,z;
+			points_out.push_back(p);
 
             auto fe = _feature->points[i];
 
             Eigen::VectorXf feature(fe.descriptorSize());
             for(int j=0;j<fe.descriptorSize();++j)
                 feature[j] = fe.histogram[j];
-            std::cout<<feature<<"\n";
-            std::cout<<"";
+			features_out.push_back(feature);
         }
     }
 
 };
-
-
-
-#endif //FASTGLOBALREGISTRATION_POINTCLOUD3D_H

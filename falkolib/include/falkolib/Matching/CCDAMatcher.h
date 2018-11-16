@@ -21,8 +21,9 @@
 
 #include <Eigen/Dense>
 #include <iostream>
-#include <falkolib/Matching/Matcher.h>
 #include <mcqd/mcqd.h>
+#include "Matcher.h"
+
 
 namespace falkolib {
 

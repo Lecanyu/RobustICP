@@ -58,7 +58,7 @@ namespace falkolib {
 				imin = -1;
 				dmin = 1.05 * distTh;
 				for (int i2 = 0; i2 < (int) v2.size(); ++i2) {
-					if (not matched[i2]) {
+					if (matched[i2]) {
 						d = v1[i1].distance(v2[i2]);
 						if (d < dmin) {
 							imin = i2;
@@ -97,7 +97,7 @@ namespace falkolib {
 				imin = -1;
 				dmin = 1.05 * distTh;
 				for (int i2 = 0; i2 < (int) keypoints2.size(); ++i2) {
-					if (not matched[i2]) {
+					if (matched[i2]) {
 						d = keypoints1[i1].distance(keypoints2[i2]);
 						ddesc = descriptors1[i1].distance(descriptors2[i2]);
 						if (d < dmin && ddesc < descTh) {

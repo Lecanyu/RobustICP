@@ -2,33 +2,6 @@ cmake_minimum_required(VERSION 3.0.0)
 
 project(FastGlobalRegistration)
 
-set(FastGlobalRegistration_VERSION_MAJOR "1")
-set(FastGlobalRegistration_VERSION_MINOR "0")
-
-# Build either a STATIC or SHARED library
-if (NOT FastGlobalRegistration_LINK_MODE)
-  set(FastGlobalRegistration_LINK_MODE "STATIC")
-endif(NOT FastGlobalRegistration_LINK_MODE)
-message(STATUS "Libary linkage will be " ${FastGlobalRegistration_LINK_MODE})
-
-set_property(GLOBAL PROPERTY USE_FOLDERS ON)
-
-# set include directories
-include_directories(
-	${FastGlobalRegistration_SOURCE_DIR}
-	${FastGlobalRegistration_SOURCE_DIR}/External
-	${FastGlobalRegistration_SOURCE_DIR}/External/Eigen
-	${FastGlobalRegistration_SOURCE_DIR}/External/flann
-	${FastGlobalRegistration_SOURCE_DIR}/FastGlobalRegistration
-	)
-
-# default built type
-if(NOT CMAKE_BUILD_TYPE)
-	set(CMAKE_BUILD_TYPE Release CACHE STRING
-		"Choose the type of build, options are: None Debug Release RelWithDebInfo MinSizeRel."
-		FORCE)
-endif(NOT CMAKE_BUILD_TYPE)
-
 # Set OS-specific things here
 if(WIN32)
 	add_definitions(-DWINDOWS)
@@ -60,6 +33,30 @@ elseif(UNIX)
 	# enable c++11
 	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 endif(WIN32)
+
+
+
+find_package(Boost)  
+if (${Boost_FOUND})
+  message(STATUS "Boost_INCLUDE_DIRS: ${Boost_INCLUDE_DIRS}")
+  message(STATUS "Boost_LIBRARY_DIRS: ${Boost_LIBRARY_DIRS}")
+  message(STATUS "Boost_LIBRARIES: ${Boost_LIBRARY_DIRS}")
+  include_directories(${Boost_INCLUDE_DIRS})
+  link_directories(${Boost_LIBRARY_DIRS})
+endif(${Boost_FOUND})
+
+SET(EIGEN3_INCLUDE_DIR D:/3rdParty/Eigen3.3.4)
+add_subdirectory(falkolib)
+
+# set include directories
+include_directories(
+	${FastGlobalRegistration_SOURCE_DIR}
+	${FastGlobalRegistration_SOURCE_DIR}/External
+	${FastGlobalRegistration_SOURCE_DIR}/External/Eigen
+	${FastGlobalRegistration_SOURCE_DIR}/External/flann
+	${FastGlobalRegistration_SOURCE_DIR}/FastGlobalRegistration
+	${FastGlobalRegistration_SOURCE_DIR}/
+	)
 
 
 add_subdirectory(FastGlobalRegistration)

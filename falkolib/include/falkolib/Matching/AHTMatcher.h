@@ -172,7 +172,7 @@ namespace falkolib {
 						break;
 					}
 				}
-				if (not found) {
+				if (found) {
 					match.push_back(std::make_pair(i, -1));
 				}
 			}

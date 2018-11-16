@@ -1,21 +1,25 @@
 find_package(PCL 1.8 REQUIRED)
 
-set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
-
-include_directories(${PCL_INCLUDE_DIRS})
+include_directories(${CMAKE_CURRENT_LIST_DIR} ${PCL_INCLUDE_DIRS} ${FALKOLIB_INCLUDE_DIR} ${FALKOLIB_EXT_INCLUDE_DIR})
 link_directories(${PCL_LIBRARY_DIRS})
 add_definitions(${PCL_DEFINITIONS})
 
 
-add_library(FastGlobalRegistrationLib ${FastGlobalRegistration_LINK_MODE} app.cpp app.h PointCloud3d.h)
+add_library(FastGlobalRegistrationLib ${FastGlobalRegistration_LINK_MODE} app.cpp)
 
 
 add_executable(FastGlobalRegistration main.cpp)
 add_executable(Evaluation evaluation.cpp)
 add_executable(test_pointcloud3d test_pointcloud3d.cpp)
-
-
+add_executable(test_laser_data_increment_odom test_laser_data_increment_odom.cpp)
+add_executable(test_laser_data_increment test_laser_data_increment.cpp)
+add_executable(test_laser_data_pairwise test_laser_data_pairwise.cpp)
+add_executable(test_laser_data_visual_GT test_laser_data_visual_GT.cpp)
 
 TARGET_LINK_LIBRARIES(FastGlobalRegistration FastGlobalRegistrationLib)
 TARGET_LINK_LIBRARIES(Evaluation FastGlobalRegistrationLib)
 TARGET_LINK_LIBRARIES(test_pointcloud3d FastGlobalRegistrationLib ${PCL_LIBRARIES})
+TARGET_LINK_LIBRARIES(test_laser_data_increment_odom FastGlobalRegistrationLib falkolib ${PCL_LIBRARIES})
+TARGET_LINK_LIBRARIES(test_laser_data_increment FastGlobalRegistrationLib falkolib ${PCL_LIBRARIES})
+TARGET_LINK_LIBRARIES(test_laser_data_pairwise FastGlobalRegistrationLib falkolib ${PCL_LIBRARIES})
+TARGET_LINK_LIBRARIES(test_laser_data_visual_GT FastGlobalRegistrationLib falkolib ${PCL_LIBRARIES})

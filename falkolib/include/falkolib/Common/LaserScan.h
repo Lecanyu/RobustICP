@@ -20,8 +20,8 @@
 #pragma once
 
 #include <vector>
-#include <falkolib/Common/Point.h>
-#include <falkolib/Common/GeomUtils.h>
+#include "Point.h"
+#include "GeomUtils.h"
 
 namespace falkolib {
 
@@ -130,7 +130,7 @@ namespace falkolib {
 			int alpha = std::floor(std::asin(radius / ranges[candIndex]) / angleInc);
 			int begIndex = std::max(0, candIndex - alpha);
 			int endIndex = std::min(candIndex + alpha + 1, numBeams);
-			for (int i = begIndex; i <= endIndex; ++i) {
+			for (int i = begIndex; i < endIndex; ++i) {
 				if (pointsDistance(points[i], candPoint) <= radius) {
 					if (i == candIndex) {
 						midIndex = neigh.size();
